@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -11,41 +11,26 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
-  }, []);
-
-  const login = (email, password, role = 'admin') => {
-    const userData = {
-      id: Date.now(),
-      email,
-      role,
-      name: email.split('@')[0],
-      avatar: `https://ui-avatars.com/api/?name=${email}&background=3B82F6&color=fff`
-    };
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
-    return Promise.resolve(userData);
+  const defaultUser = {
+    id: 1,
+    email: 'admin@dokterresidency.id',
+    role: 'admin',
+    name: 'Admin',
+    avatar: 'https://ui-avatars.com/api/?name=Admin&background=3B82F6&color=fff'
   };
 
+  const [user] = useState(defaultUser);
+
   const logout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
+    // Logout disabled - no authentication required
+    console.log('Logout disabled - direct access mode');
   };
 
   const value = {
     user,
-    login,
     logout,
-    loading,
-    isAuthenticated: !!user
+    loading: false,
+    isAuthenticated: true
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
