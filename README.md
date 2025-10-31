@@ -145,21 +145,7 @@ src/
 
 ## 🔐 Authentication
 
-Demo mode aktif - gunakan email dan password apapun untuk login.
-
-Untuk production, integrasikan dengan:
-- Netlify Identity
-- Firebase Auth
-- Auth0
-- Atau backend custom
-
-## 📝 Demo Credentials
-
-```
-Email: admin@dokterresidency.id
-Password: [any password]
-Role: Admin/Editor/Reviewer/Proctor
-```
+**Authentication Disabled** - Direct access mode enabled. The application now provides direct access to the admin panel without requiring login. A default admin user is automatically configured for all sessions.
 
 ## 🌐 Deployment ke Netlify
 

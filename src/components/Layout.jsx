@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   LayoutDashboard,
   BookOpen,
@@ -11,9 +11,7 @@ import {
   Sparkles,
   Bell,
   Menu,
-  X,
-  LogOut,
-  ChevronDown
+  X
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import './Layout.css';
@@ -31,15 +29,8 @@ const menuItems = [
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user } = useAuth();
 
   return (
     <div className="layout">
@@ -102,33 +93,13 @@ const Layout = ({ children }) => {
             </Link>
 
             <div className="profile-menu">
-              <button
-                className="profile-btn"
-                onClick={() => setProfileOpen(!profileOpen)}
-              >
+              <div className="profile-btn">
                 <img src={user?.avatar} alt={user?.name} />
                 <div className="profile-info">
                   <span className="profile-name">{user?.name}</span>
                   <span className="profile-role">{user?.role}</span>
                 </div>
-                <ChevronDown size={16} />
-              </button>
-
-              <AnimatePresence>
-                {profileOpen && (
-                  <motion.div
-                    className="profile-dropdown"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                  >
-                    <button onClick={handleLogout} className="logout-btn">
-                      <LogOut size={16} />
-                      <span>Logout</span>
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              </div>
             </div>
           </div>
         </header>
